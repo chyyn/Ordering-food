@@ -27,22 +27,6 @@
     </Suspense>
     <Suspense>
       <template #default>
-        <MenuComponent/>
-      </template>
-      <template #fallback>
-        <Loading />
-      </template>
-    </Suspense>
-    <Suspense>
-      <template #default>
-        <Testimonial/>
-      </template>
-      <template #fallback>
-        <Loading />
-      </template>
-    </Suspense>
-    <Suspense>
-      <template #default>
         <Newsletter/>
       </template>
       <template #fallback>
@@ -89,20 +73,6 @@ const Services = defineAsyncComponent(() =>
     }, 1500)
   })
 );
-const MenuComponent = defineAsyncComponent(() =>
-  new Promise(resolve => {
-    setTimeout(() => {
-      resolve(import('@/components/MenuComponent.vue'));
-    }, 2000)
-  })
-);
-const Testimonial = defineAsyncComponent(() =>
-  new Promise(resolve => {
-    setTimeout(() => {
-      resolve(import('@/components/Testimonial.vue'));
-    }, 2200)
-  })
-);
 const Newsletter = defineAsyncComponent(() =>
   new Promise(resolve => {
     setTimeout(() => {
@@ -126,8 +96,6 @@ export default {
     CategoriesComponent,
     History,
     Services,
-    MenuComponent,
-    Testimonial,
     Newsletter,
     ContactFooter,
     Loading

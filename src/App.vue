@@ -2,7 +2,7 @@
   import { RouterView } from 'vue-router'
 </script>
 <template>
-  <HeaderComponent :isDark="isDark" :logo="bannerlogo" :toggleLogin="toggleLogin" :toggleSearch="toggleSearch" :toggleSidebar="toggleSidebar" :totalQuantity="totalQuantity"/>
+  <HeaderComponent :isDark="isDark" :logo="bannerlogo" />
   <RouterView :logo="bannerlogo" :inventory="isProductsPage ? inventory : null" :addToCart="isProductsPage ? addToCart : null"/>
   <transition name="cart-transition" mode="out-in">
   <Sidebar
@@ -13,41 +13,26 @@
       :remove="removeItem"
    />
   </transition>
-  <Search v-if="showSearch"
-          :toggle="toggleSearch"/>
-  <Login v-if="showLogin"
-         :toggle="toggleLogin"/>
 </template>
 
 <script>
   import { defineAsyncComponent } from 'vue'
   import { initializeScrollTop } from '@/lib/script'
-  import food from '@/data/food.json'
   import logo from '@/assets/images/logo.webp'
-  import whitelogo from '@/assets/images/logo-white.webp'
+  //import whitelogo from '@/assets/images/logo-white.webp'
   import HeaderSketelon from '@/loaders/HeaderSketelon.vue'
   const HeaderComponent = defineAsyncComponent({
     loader: () => import('@/components/HeaderComponent.vue'),
     loadingComponent: HeaderSketelon,
     suspensible: false
   })
-  const Sidebar = defineAsyncComponent(() => import('@/components/Sidebar.vue'))
-  const Search = defineAsyncComponent(() => import('@/components/Search.vue'))
-  const Login = defineAsyncComponent(() => import('@/components/Login.vue'))
 
   export default {
     components: {
       HeaderComponent,
-      Sidebar,
-      Search,
-      Login
     },
     data() {
       return {
-        showSearch: false,
-        showLogin: false,
-        showSidebar: false,
-        inventory: food,
         bannerlogo: logo,
         cart: {}
       }
@@ -61,30 +46,6 @@
       }
     },
     methods: {
-      addToCart(name, quantity) {
-        if(!this.cart[name]) this.cart[name] = 0
-        this.cart[name] += quantity
-      },
-      toggleSidebar() {
-        this.showSidebar = !this.showSidebar
-      },
-      toggleLogin() {
-        this.showLogin = !this.showLogin
-      },
-      toggleSearch() {
-        this.showSearch = !this.showSearch
-      },
-      removeItem(name) {
-        delete this.cart[name]
-      },
-      isDark(dark) {
-        if(dark) {
-          this.bannerlogo = whitelogo
-        }
-        else {
-          this.bannerlogo = logo
-        }
-      }
     },
     mounted() {
         initializeScrollTop()
